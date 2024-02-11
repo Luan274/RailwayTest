@@ -1,0 +1,41 @@
+# PostgreSQL. Versions 9.3 and up are supported.
+#
+# Install the pg driver:
+#   gem install pg
+# On macOS with Homebrew:
+#   gem install pg -- --with-pg-config=/usr/local/bin/pg_config
+# On Windows:
+#   gem install pg
+#       Choose the win32 build.
+#       Install PostgreSQL and put its /bin directory on your path.
+#
+# Configure Using Gemfile
+# gem "pg"
+#
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  # For details on connection pooling, see Rails configuration guide
+  # https://guides.rubyonrails.org/configuring.html#database-pooling
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  
+development:
+  <<: *default
+  host: <%= ENV["APP_RAILWAY_DATABASE_HOST"] %>
+  database: <%= ENV["APP_RAILWAY_DATABASE_NAME"] %>
+  username: <%= ENV["APP_RAILWAY_DATABASE_USERNAME"] %>
+  password: <%= ENV["APP_RAILWAY_DATABASE_PASSWORD"] %>
+test:
+  <<: *default
+  host: <%= ENV["TEST_APP_RAILWAY_DATABASE_HOST"] %> 
+  database: <%= ENV["TEST_RAILWAY_DATABASE_NAME"] %>
+  username: <%= ENV["TEST_RAILWAY_DATABASE_USERNAME"] %>
+  password: <%= ENV["TEST_RAILWAY_DATABASE_PASSWORD"] %>
+production:
+  <<: *default
+  url: <%= ENV["DATABASE_URL"] %>
+  host: <%= ENV["PGHOST"] %>
+  database: <%= ENV["PGDATABASE"] %>
+  username: <%= ENV["PGUSER"] %>
+  password: <%= ENV["PGPASSWORD"] %>
+  port: <%= ENV["PGPORT"] %>
